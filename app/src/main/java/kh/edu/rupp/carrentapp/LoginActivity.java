@@ -40,15 +40,27 @@ public class LoginActivity extends AppCompatActivity {
         editTextEmailAddress.requestFocus();
 
         signInButton.setOnClickListener(view -> {
-            String username = editTextEmailAddress.getText().toString();
+            String email = editTextEmailAddress.getText().toString();
             String password = editTextPassword.getText().toString();
 
-            if (!username.isEmpty() && !password.isEmpty())
-                openMainActivity(username, password);
-            else {
+            if (email.isEmpty()) {
                 editTextEmailAddress.setError("Email is required");
-                editTextPassword.setError("Password is required");
                 editTextEmailAddress.requestFocus();
+            }
+            else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                editTextEmailAddress.setError("Invalid email address");
+                editTextEmailAddress.requestFocus();
+            }
+            else if (password.isEmpty()) {
+                editTextPassword.setError("Password is required");
+                editTextPassword.requestFocus();
+            }
+            else if (password.length() < 8) {
+                editTextPassword.setError("Password must be at least 8 characters");
+                editTextPassword.requestFocus();
+            }
+            else {
+                openMainActivity(email, password);
             }
         });
 
@@ -59,12 +71,12 @@ public class LoginActivity extends AppCompatActivity {
         appleIdLoginIcon.setOnClickListener(view -> openLink("https://www.apple.com"));
     }
 
-    private void openMainActivity(String username, String password) {
+    private void openMainActivity(String email, String password) {
 
-        if (username.equals("admin") && password.equals("admin123")){
-            Intent intent = new Intent(this, MainActivity.class);
+        if (email.equals("admin@example.com") && password.equals("admin123")){
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-            finish();
         }
         else {
             Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
