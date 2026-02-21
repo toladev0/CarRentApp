@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">CarRentApp</string>
+    <string name="discover_your_dream_car_here">Discover Your Dream Car Here</string>
+    <string name="Description"><![CDATA[Several car brands and service providers focus on offering a combination of comfort and happiness (driving joy). ]]></string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 </resources>
