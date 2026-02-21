@@ -4,4 +4,12 @@
     <string name="Description"><![CDATA[Several car brands and service providers focus on offering a combination of comfort and happiness (driving joy). ]]></string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+    <string name="login_here">Login here</string>
+    <string name="welcome_back_you_ve_been_missed">Welcome back you’ve been missed !</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_your_password">Forgot your password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="or_continue_with">Or continue with</string>
 </resources>
