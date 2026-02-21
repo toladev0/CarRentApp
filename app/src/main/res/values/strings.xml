@@ -12,4 +12,9 @@
     <string name="sign_in">Sign in</string>
     <string name="create_new_account">Create new account</string>
     <string name="or_continue_with">Or continue with</string>
+    <string name="create_account">Create account</string>
+    <string name="creating_an_account_so_you_can_explore_all_existing_car">Creating an account so you can explore all existing car</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="already_have_account">Already have account</string>
 </resources>

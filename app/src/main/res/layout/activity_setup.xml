@@ -76,6 +76,7 @@
                 tools:ignore="TextContrastCheck" />
 
             <Button
+                android:id="@+id/registerButton"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
