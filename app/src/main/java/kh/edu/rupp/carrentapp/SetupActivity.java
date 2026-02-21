@@ -16,22 +16,20 @@ public class SetupActivity extends AppCompatActivity{
         Button registerButton = findViewById(R.id.registerButton);
 
 
-        loginButton.setOnClickListener(view -> {
-            openLoginActivity();
-        });
+        loginButton.setOnClickListener(view -> openLoginActivity());
 
-        registerButton.setOnClickListener(view -> {
-            openRegisterActivity();
-        });
+        registerButton.setOnClickListener(view -> openRegisterActivity());
     }
 
     private void openLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void openRegisterActivity() {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
+        finish();
     }
 }

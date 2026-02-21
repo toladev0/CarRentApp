@@ -14,13 +14,12 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         Button signInButton = findViewById(R.id.signUpButton);
-        signInButton.setOnClickListener(view -> {
-            openMainActivity();
-        });
+        signInButton.setOnClickListener(view -> openMainActivity());
     }
 
     private void openMainActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 }
