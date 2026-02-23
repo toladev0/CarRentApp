@@ -7,7 +7,11 @@ public class AuthResponse {
 
     public static class User {
         public String id;
-        public String name;
         public String email;
+        public UserMetadata user_metadata;
+    }
+
+    public static class UserMetadata {
+        public String name;
     }
 }

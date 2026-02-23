@@ -101,12 +101,11 @@ public class LoginActivity extends AppCompatActivity {
 
                     String accessToken = auth.access_token;
                     String refreshToken = auth.refresh_token;
-                    String name = auth.user.name;
 
                     SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
 
-                    editor.putString("FULL_NAME", name);
+                    editor.putString("FULL_NAME", auth.user.user_metadata.name);
                     editor.putString("ACCESS_TOKEN", accessToken);
                     editor.putString("REFRESH_TOKEN", refreshToken);
                     editor.putBoolean("IS_LOGGED_IN", true);

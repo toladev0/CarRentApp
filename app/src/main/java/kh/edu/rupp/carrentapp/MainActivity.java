@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void showUserName(){
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        String name = prefs.getString("FULL_NAME", "User");
-        helloTextView.setText("Hello, " + name + "!");
+        String name = prefs.getString("FULL_NAME", "Anonymous");
+        helloTextView.setText("Welcome " + name + " !");
     }
 
     private void initSessionManager() {
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 .baseUrl(ApiKey.PROJECT_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        SupabaseApi api = retrofit.create(SupabaseApi.class);
+        retrofit.create(SupabaseApi.class);
         sessionManager = new SessionManager(this);
     }
 
