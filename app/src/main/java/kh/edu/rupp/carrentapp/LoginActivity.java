@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        forgotPasswordLink.setOnClickListener(view -> openLink("https://www.google.com"));
+        forgotPasswordLink.setOnClickListener(view -> openForgotPasswordActivity());
         createAccountLink.setOnClickListener(view -> openRegisterActivity());
         googleLoginIcon.setOnClickListener(view -> openLink("https://www.google.com"));
         facebookLoginIcon.setOnClickListener(view -> openLink("https://www.facebook.com"));
@@ -145,6 +145,11 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void openForgotPasswordActivity() {
+        Intent intent = new Intent(this, ForgotPasswordActivity.class);
+        startActivity(intent);
     }
 
     private void openRegisterActivity() {
