@@ -1,6 +1,7 @@
 package kh.edu.rupp.carrentapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
@@ -9,9 +10,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import models.AuthResponse;
+import models.LoginRequest;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import services.ApiKey;
+import services.SupabaseApi;
+
 public class LoginActivity extends AppCompatActivity {
+
+    // Initialize Retrofit
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(ApiKey.PROJECT_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+
+    // Create API instance
+    SupabaseApi api = retrofit.create(SupabaseApi.class);
 
     EditText editTextEmailAddress;
     EditText editTextPassword;
@@ -43,24 +64,29 @@ public class LoginActivity extends AppCompatActivity {
             String email = editTextEmailAddress.getText().toString();
             String password = editTextPassword.getText().toString();
 
+            // Validate input
             if (email.isEmpty()) {
                 editTextEmailAddress.setError("Email is required");
                 editTextEmailAddress.requestFocus();
             }
+            // Validate email
             else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 editTextEmailAddress.setError("Invalid email address");
                 editTextEmailAddress.requestFocus();
             }
+            // Validate password
             else if (password.isEmpty()) {
                 editTextPassword.setError("Password is required");
                 editTextPassword.requestFocus();
             }
+            // Validate password length
             else if (password.length() < 8) {
                 editTextPassword.setError("Password must be at least 8 characters");
                 editTextPassword.requestFocus();
             }
+            // Login
             else {
-                openMainActivity(email, password);
+                loginAndOpenMainActivity(email, password);
             }
         });
 
@@ -71,16 +97,54 @@ public class LoginActivity extends AppCompatActivity {
         appleIdLoginIcon.setOnClickListener(view -> openLink("https://www.apple.com"));
     }
 
-    private void openMainActivity(String email, String password) {
+    // Login and open MainActivity
+    private void loginAndOpenMainActivity(String email, String password) {
+        // Create request
+        LoginRequest request = new LoginRequest(email, password);
 
-        if (email.equals("admin@example.com") && password.equals("admin123")){
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }
-        else {
-            Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
-        }
+        // Send request
+        api.login(request).enqueue(new Callback<>() {
+            @Override
+            // Handle response
+            public void onResponse(@NonNull Call<AuthResponse> call, @NonNull Response<AuthResponse> response) {
+                // Check response
+                if (response.isSuccessful() && response.body() != null) {
+
+                    // Save access token and refresh token to SharedPreferences
+                    AuthResponse auth = response.body();
+
+                    String accessToken = auth.access_token;
+                    String refreshToken = auth.refresh_token;
+
+                    SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+
+                    editor.putString("USER_EMAIL", auth.user.email);
+                    editor.putString("ACCESS_TOKEN", accessToken);
+                    editor.putString("REFRESH_TOKEN", refreshToken);
+                    editor.putBoolean("IS_LOGGED_IN", true);
+
+                    editor.apply();
+
+                    // Successfully logged in
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(LoginActivity.this,
+                            "Invalid email or password",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            // Handle error
+            public void onFailure(@NonNull Call<AuthResponse> call, @NonNull Throwable t) {
+                Toast.makeText(LoginActivity.this,
+                        "Error: " + t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void openRegisterActivity() {
