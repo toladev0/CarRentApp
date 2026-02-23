@@ -9,11 +9,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import models.AuthResponse;
+import models.RegisterRequest;
+import models.UserInsertRequest;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import services.ApiKey;
+import services.SupabaseApi;
+
 public class RegisterActivity extends AppCompatActivity {
 
+    EditText editTextFullName;
+    EditText editTextPhoneNumber;
     EditText editTextEmailAddress;
     EditText editTextPassword;
     EditText editTextConfirmPassword;
@@ -28,6 +42,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        editTextFullName = findViewById(R.id.editTextFullName);
+        editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
         editTextEmailAddress = findViewById(R.id.editTextEmailAddress);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
@@ -37,14 +53,24 @@ public class RegisterActivity extends AppCompatActivity {
         facebookRegisterIcon = findViewById(R.id.facebookRegisterIcon);
         appleIdRegisterIcon = findViewById(R.id.appleIdRegisterIcon);
 
-        editTextEmailAddress.requestFocus();
+        editTextFullName.requestFocus();
 
         signUpButton.setOnClickListener(view -> {
+            String fullName = editTextFullName.getText().toString();
+            String phoneNumber = editTextPhoneNumber.getText().toString();
             String email = editTextEmailAddress.getText().toString();
             String password = editTextPassword.getText().toString();
             String confirmPassword = editTextConfirmPassword.getText().toString();
 
-            if(email.isEmpty()) {
+            if (editTextFullName.getText().toString().isEmpty()) {
+                editTextFullName.setError("Full name is required");
+                editTextFullName.requestFocus();
+            }
+            else if (editTextPhoneNumber.getText().toString().isEmpty()) {
+                editTextPhoneNumber.setError("Phone number is required");
+                editTextPhoneNumber.requestFocus();
+            }
+            else if(email.isEmpty()) {
                 editTextEmailAddress.setError("Email is required");
                 editTextEmailAddress.requestFocus();
             }
@@ -73,8 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
                 editTextConfirmPassword.setError("Password does not match");
             }
             else {
-                Toast.makeText(this, "Email: " + email + "\nPassword: " + password, Toast.LENGTH_SHORT).show();
-                openMainActivity();
+                registerUser(fullName, phoneNumber, email, password);
             }
         });
 
@@ -84,15 +109,76 @@ public class RegisterActivity extends AppCompatActivity {
         appleIdRegisterIcon.setOnClickListener(view -> openLink("https://www.apple.com"));
     }
 
-    private void openMainActivity() {
-        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+    private void registerUser(String fullName, String phoneNumber, String email, String password) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiKey.PROJECT_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        SupabaseApi api = retrofit.create(SupabaseApi.class);
+
+        RegisterRequest request = new RegisterRequest(fullName, phoneNumber, email, password);
+
+        api.registerUser(request).enqueue(new Callback<>() {
+            @Override
+            public void onResponse(@NonNull Call<AuthResponse> call, @NonNull Response<AuthResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    String userId = response.body().user.id;
+                    String accessToken = response.body().access_token;
+
+                    UserInsertRequest newUser =
+                            new UserInsertRequest(
+                                    userId,
+                                    email,
+                                    fullName,
+                                    phoneNumber,
+                                    "user"
+                            );
+
+                    api.insertUser("Bearer " + accessToken, newUser)
+                            .enqueue(new Callback<>() {
+
+                                @Override
+                                public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(RegisterActivity.this,
+                                                "Registration Successful!",
+                                                Toast.LENGTH_LONG).show();
+                                        openLoginActivity();
+                                    } else {
+                                        Toast.makeText(RegisterActivity.this,
+                                                "Insert into users failed",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                                    Toast.makeText(RegisterActivity.this,
+                                            "Database Error: " + t.getMessage(),
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            });
+                } else {
+                    Toast.makeText(RegisterActivity.this,
+                            "Signup failed",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AuthResponse> call, @NonNull Throwable t) {
+                Toast.makeText(RegisterActivity.this,
+                        "Error: " + t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void openLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
     private void openLink(String url){

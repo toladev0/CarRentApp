@@ -52,7 +52,6 @@
                 android:background="@drawable/edittext_bg"
                 android:fontFamily="@font/inter"
                 android:hint="@string/email"
-                android:text="admin@example.com"
                 android:inputType="textEmailAddress"
                 android:padding="12dp"
                 tools:ignore="TextContrastCheck" />
@@ -65,7 +64,6 @@
                 android:background="@drawable/edittext_bg"
                 android:fontFamily="@font/inter"
                 android:hint="@string/password"
-                android:text="admin123"
                 android:inputType="textPassword"
                 android:padding="12sp"
                 tools:ignore="TextContrastCheck" />

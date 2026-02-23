@@ -30,6 +30,23 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         resetButton = findViewById(R.id.resetButton);
 
+        resetButton.setOnClickListener(view -> {
+            String email = emailEditText.getText().toString();
+            if (emailEditText.getText().toString().isEmpty()) {
+                emailEditText.setError("Email is required");
+                emailEditText.requestFocus();
+            }
+            else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailEditText.getText().toString()).matches()) {
+                emailEditText.setError("Invalid email address");
+                emailEditText.requestFocus();
+            }
+            else {
+                forgotPassword(email);
+            }
+        });
+    }
+
+    private void forgotPassword(String email) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiKey.PROJECT_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -37,36 +54,27 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         SupabaseApi api = retrofit.create(SupabaseApi.class);
 
-        resetButton.setOnClickListener(view -> {
-            String email = emailEditText.getText().toString().trim();
-            if (email.isEmpty()) {
-                emailEditText.setError("Email is required");
-                emailEditText.requestFocus();
-                return;
+        api.resetPassword(new ResetPasswordRequest(email))
+        .enqueue(new Callback<>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(ForgotPasswordActivity.this,
+                            "Check your email to reset password",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(ForgotPasswordActivity.this,
+                            "Failed to send reset email",
+                            Toast.LENGTH_LONG).show();
+                }
             }
 
-            api.resetPassword(new ResetPasswordRequest(email))
-                    .enqueue(new Callback<>() {
-                        @Override
-                        public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                            if (response.isSuccessful()) {
-                                Toast.makeText(ForgotPasswordActivity.this,
-                                        "Check your email to reset password",
-                                        Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(ForgotPasswordActivity.this,
-                                        "Failed to send reset email",
-                                        Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                            Toast.makeText(ForgotPasswordActivity.this,
-                                    "Error: " + t.getMessage(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Toast.makeText(ForgotPasswordActivity.this,
+                        "Error: " + t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
         });
     }
 }

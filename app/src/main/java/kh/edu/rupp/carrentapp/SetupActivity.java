@@ -9,38 +9,39 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SetupActivity extends AppCompatActivity {
 
+    Button loginButton;
+    Button registerButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (checkLoginStatus())
+            return;
+
         super.onCreate(savedInstanceState);
-
-        // Check login AFTER super
-        if (checkLoginStatus()) {
-            return; // stop executing if redirected
-        }
-
         setContentView(R.layout.activity_setup);
 
-        Button loginButton = findViewById(R.id.loginButton);
-        Button registerButton = findViewById(R.id.registerButton);
+        loginButton = findViewById(R.id.loginButton);
+        registerButton = findViewById(R.id.registerButton);
 
         loginButton.setOnClickListener(view -> openLoginActivity());
         registerButton.setOnClickListener(view -> openRegisterActivity());
     }
 
-    // Return true if redirected
     private boolean checkLoginStatus() {
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         boolean isLoggedIn = prefs.getBoolean("IS_LOGGED_IN", false);
 
         if (isLoggedIn) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish(); // VERY IMPORTANT
+            openMainActivity();
             return true;
         }
-
         return false;
+    }
+
+    private void openMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     private void openLoginActivity() {

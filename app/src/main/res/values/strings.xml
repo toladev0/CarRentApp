@@ -20,4 +20,7 @@
     <string name="logout">Logout</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="reset_your_password">Reset your password</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="full_name">Full name</string>
+    <string name="phone">Phone</string>
 </resources>

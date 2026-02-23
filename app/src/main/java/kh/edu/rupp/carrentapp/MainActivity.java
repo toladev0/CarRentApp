@@ -1,6 +1,6 @@
 package kh.edu.rupp.carrentapp;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,11 +8,19 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import SessionManager.SessionManager;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import services.ApiKey;
+import services.SupabaseApi;
+
 public class MainActivity extends AppCompatActivity {
 
     Button logoutButton;
     TextView helloTextView;
+    SessionManager sessionManager;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,19 +29,28 @@ public class MainActivity extends AppCompatActivity {
         logoutButton = findViewById(R.id.logoutButton);
         helloTextView = findViewById(R.id.helloTextView);
 
-        // ✅ Load saved username/email
+        initSessionManager();
+        showUserName();
+        setLogoutButton();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void showUserName(){
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        String email = prefs.getString("USER_EMAIL", "User"); // default to "User"
-        helloTextView.setText("Hello, " + email + "!"); // show email
+        String name = prefs.getString("FULL_NAME", "User");
+        helloTextView.setText("Hello, " + name + "!");
+    }
 
-        logoutButton.setOnClickListener(view -> {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.clear();
-            editor.apply();
+    private void initSessionManager() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiKey.PROJECT_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        SupabaseApi api = retrofit.create(SupabaseApi.class);
+        sessionManager = new SessionManager(this);
+    }
 
-            Intent intent = new Intent(this, SetupActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        });
+    private void setLogoutButton(){
+        logoutButton.setOnClickListener(view -> sessionManager.logout());
     }
 }

@@ -25,17 +25,9 @@ import services.SupabaseApi;
 
 public class LoginActivity extends AppCompatActivity {
 
-    // Initialize Retrofit
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(ApiKey.PROJECT_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
-
-    // Create API instance
-    SupabaseApi api = retrofit.create(SupabaseApi.class);
-
     EditText editTextEmailAddress;
     EditText editTextPassword;
+    Button signInButton;
     TextView forgotPasswordLink;
     TextView createAccountLink;
     ImageView googleLoginIcon;
@@ -50,8 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
         editTextEmailAddress = findViewById(R.id.editTextEmailAddress);
         editTextPassword = findViewById(R.id.editTextPassword);
-
-        Button signInButton = findViewById(R.id.signInButton);
+        signInButton = findViewById(R.id.signInButton);
         forgotPasswordLink = findViewById(R.id.forgotPasswordLink);
         createAccountLink = findViewById(R.id.createAccountLink);
         googleLoginIcon = findViewById(R.id.googleLoginIcon);
@@ -64,29 +55,24 @@ public class LoginActivity extends AppCompatActivity {
             String email = editTextEmailAddress.getText().toString();
             String password = editTextPassword.getText().toString();
 
-            // Validate input
             if (email.isEmpty()) {
                 editTextEmailAddress.setError("Email is required");
                 editTextEmailAddress.requestFocus();
             }
-            // Validate email
             else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 editTextEmailAddress.setError("Invalid email address");
                 editTextEmailAddress.requestFocus();
             }
-            // Validate password
             else if (password.isEmpty()) {
                 editTextPassword.setError("Password is required");
                 editTextPassword.requestFocus();
             }
-            // Validate password length
             else if (password.length() < 8) {
                 editTextPassword.setError("Password must be at least 8 characters");
                 editTextPassword.requestFocus();
             }
-            // Login
             else {
-                loginAndOpenMainActivity(email, password);
+                login(email, password);
             }
         });
 
@@ -97,39 +83,37 @@ public class LoginActivity extends AppCompatActivity {
         appleIdLoginIcon.setOnClickListener(view -> openLink("https://www.apple.com"));
     }
 
-    // Login and open MainActivity
-    private void loginAndOpenMainActivity(String email, String password) {
-        // Create request
+    private void login(String email, String password) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiKey.PROJECT_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        SupabaseApi api = retrofit.create(SupabaseApi.class);
+
         LoginRequest request = new LoginRequest(email, password);
 
-        // Send request
         api.login(request).enqueue(new Callback<>() {
             @Override
-            // Handle response
             public void onResponse(@NonNull Call<AuthResponse> call, @NonNull Response<AuthResponse> response) {
-                // Check response
                 if (response.isSuccessful() && response.body() != null) {
-
-                    // Save access token and refresh token to SharedPreferences
                     AuthResponse auth = response.body();
 
                     String accessToken = auth.access_token;
                     String refreshToken = auth.refresh_token;
+                    String name = auth.user.name;
 
                     SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
 
-                    editor.putString("USER_EMAIL", auth.user.email);
+                    editor.putString("FULL_NAME", name);
                     editor.putString("ACCESS_TOKEN", accessToken);
                     editor.putString("REFRESH_TOKEN", refreshToken);
                     editor.putBoolean("IS_LOGGED_IN", true);
 
                     editor.apply();
 
-                    // Successfully logged in
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    openMainActivity();
                 } else {
                     Toast.makeText(LoginActivity.this,
                             "Invalid email or password",
@@ -138,13 +122,18 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            // Handle error
             public void onFailure(@NonNull Call<AuthResponse> call, @NonNull Throwable t) {
                 Toast.makeText(LoginActivity.this,
                         "Error: " + t.getMessage(),
                         Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void openMainActivity() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     private void openForgotPasswordActivity() {
