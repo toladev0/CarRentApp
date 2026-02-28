@@ -27,4 +27,7 @@
     <string name="good_morning">Good morning!</string>
     <string name="home">Home</string>
     <string name="profile">Profile</string>
+    <string name="search_car_here">Search car here</string>
+    <string name="brand">Brand </string>
+    <string name="all_cars">All Cars</string>
 </resources>

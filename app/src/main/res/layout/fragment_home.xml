@@ -13,22 +13,22 @@
         android:layout_height="210dp"
         android:scaleType="centerCrop"
         android:src="@drawable/frame"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
     <!-- Header Content -->
     <LinearLayout
         android:id="@+id/headerLayout"
         android:layout_width="0dp"
-        android:layout_height="210dp"
-        android:padding="40dp"
+        android:layout_height="190dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="@id/frameImage"
+        android:padding="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="@id/frameImage">
 
         <!-- Profile Image -->
         <ImageView
@@ -42,8 +42,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingStart="10dp"
             android:orientation="vertical"
+            android:paddingStart="10dp"
             tools:ignore="RtlSymmetry">
 
             <TextView
@@ -53,7 +53,7 @@
                 android:fontFamily="@font/inter_bold"
                 android:text="@string/welcome_john"
                 android:textColor="@color/black"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
                 android:fontFamily="@font/inter_medium"
                 android:text="@string/good_morning"
                 android:textColor="@color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
         </LinearLayout>
 
         <!-- Notification Icon -->
@@ -72,4 +72,146 @@
             tools:ignore="ContentDescription" />
     </LinearLayout>
 
+    <!-- Search Box -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginHorizontal="40dp"
+        android:elevation="4dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/headerLayout"
+        app:layout_constraintStart_toStartOf="@+id/headerLayout"
+        app:layout_constraintTop_toBottomOf="@+id/headerLayout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="30dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/search_icon"
+                tools:ignore="ContentDescription" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autofillHints="name"
+                android:background="@android:color/transparent"
+                android:fontFamily="@font/inter"
+                android:hint="@string/search_car_here"
+                android:inputType="text"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="#78909C"
+                android:textSize="18sp"
+                tools:ignore="TouchTargetSizeCheck,VisualLintTextFieldSize" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="40dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="@string/brand"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                tools:ignore="SpeakableTextPresentCheck">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="25dp"
+                        android:src="@drawable/brand"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="25dp"
+                        android:src="@drawable/brand"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="25dp"
+                        android:src="@drawable/brand"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="25dp"
+                        android:src="@drawable/brand"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="25dp"
+                        android:src="@drawable/brand"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="25dp"
+                        android:src="@drawable/brand"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="25dp"
+                        android:src="@drawable/brand"
+                        tools:ignore="ContentDescription" />
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/inter_bold"
+                android:text="@string/all_cars"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
