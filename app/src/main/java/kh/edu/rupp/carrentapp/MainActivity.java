@@ -1,56 +1,48 @@
 package kh.edu.rupp.carrentapp;
 
-import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-import SessionManager.SessionManager;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import services.ApiKey;
-import services.SupabaseApi;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button logoutButton;
-    TextView helloTextView;
-    SessionManager sessionManager;
+    BottomNavigationView bottomNavigationView;
+    Fragment selectedFragment;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        logoutButton = findViewById(R.id.logoutButton);
-        helloTextView = findViewById(R.id.helloTextView);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        initSessionManager();
-        showUserName();
-        setLogoutButton();
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            selectedFragment = null;
+
+            if (item.getItemId() == R.id.nav_home) {
+                selectedFragment = new HomeFragment();
+            }
+            else if (item.getItemId() == R.id.nav_profile) {
+                selectedFragment = new ProfileFragment();
+            }
+
+            return loadFragment(selectedFragment);
+        });
+
+        if (selectedFragment == null)
+            loadFragment(new HomeFragment());
     }
 
-    @SuppressLint("SetTextI18n")
-    private void showUserName(){
-        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        String name = prefs.getString("FULL_NAME", "Anonymous");
-        helloTextView.setText("Welcome " + name + " !");
-    }
-
-    private void initSessionManager() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ApiKey.PROJECT_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        retrofit.create(SupabaseApi.class);
-        sessionManager = new SessionManager(this);
-    }
-
-    private void setLogoutButton(){
-        logoutButton.setOnClickListener(view -> sessionManager.logout());
+    private boolean loadFragment(Fragment selectedFragment) {
+        if (selectedFragment != null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frameLayout, selectedFragment)
+                    .commit();
+            return true;
+        }
+        return false;
     }
 }
