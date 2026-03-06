@@ -19,7 +19,7 @@
         app:itemIconTint="@color/bottom_nav_color"
         app:itemTextColor="@color/black"
         app:itemActiveIndicatorStyle="@null"
-        android:background="@color/colorPrimary"
+        android:background="@color/Primary600"
         app:labelVisibilityMode="unlabeled"
         app:itemRippleColor="@android:color/transparent"
         app:menu="@menu/bottom_menu"
