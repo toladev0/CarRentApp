@@ -13,6 +13,6 @@
     <color name="NeutralBorder">#E5E7EB</color>
 
     <!-- Text -->
-    <color name="TetPrimary">#111827</color>
-    <color name="TetSecondary">#757575</color>
+    <color name="TextPrimary">#111827</color>
+    <color name="TextSecondary">#757575</color>
 </resources>

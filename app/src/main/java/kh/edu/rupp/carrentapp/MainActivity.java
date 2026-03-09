@@ -7,10 +7,10 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import kh.edu.rupp.carrentapp.fragment.AccountFragment;
+import kh.edu.rupp.carrentapp.fragment.HomeFragment;
 import kh.edu.rupp.carrentapp.fragment.CarFragment;
 import kh.edu.rupp.carrentapp.fragment.FavFragment;
-import kh.edu.rupp.carrentapp.fragment.HomeFragment;
+import kh.edu.rupp.carrentapp.fragment.AccountFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (itemId == R.id.nav_fav) {
                 loadFragment(new FavFragment());
                 return true;
-            } else if (itemId == R.id.nav_profile) {
+            } else if (itemId == R.id.nav_account) {
                 loadFragment(new AccountFragment());
                 return true;
             }

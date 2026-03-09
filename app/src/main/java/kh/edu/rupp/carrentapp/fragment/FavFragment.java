@@ -10,9 +10,6 @@ import androidx.fragment.app.Fragment;
 import kh.edu.rupp.carrentapp.R;
 
 public class FavFragment extends Fragment {
-    public FavFragment() {
-        // Required empty public constructor
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

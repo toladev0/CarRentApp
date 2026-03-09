@@ -1,13 +1,13 @@
 package kh.edu.rupp.carrentapp.fragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,19 +16,20 @@ import androidx.fragment.app.Fragment;
 
 import SessionManager.SessionManager;
 import kh.edu.rupp.carrentapp.R;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import services.ApiKey;
+import services.SupabaseApi;
 
 public class HomeFragment extends Fragment {
 
-    private TextView helloTextView;
-    private SessionManager sessionManager;
+    TextView helloTextView;
+    SessionManager sessionManager;
 
-    public HomeFragment() {
-        // Required empty public constructor
-    }
-
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override
@@ -36,19 +37,24 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         helloTextView = view.findViewById(R.id.helloTextView);
-        Button logoutButton = view.findViewById(R.id.logoutButton);
 
-        sessionManager = new SessionManager(requireContext());
-
+        initSessionManager();
         showUserName();
-
-        logoutButton.setOnClickListener(v -> sessionManager.logout());
     }
 
     @SuppressLint("SetTextI18n")
-    private void showUserName() {
-        SharedPreferences prefs = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+    private void showUserName(){
+        SharedPreferences prefs = requireContext().getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         String name = prefs.getString("FULL_NAME", "Anonymous");
         helloTextView.setText("Welcome " + name + " !");
+    }
+
+    private void initSessionManager() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiKey.PROJECT_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofit.create(SupabaseApi.class);
+        sessionManager = new SessionManager(requireContext());
     }
 }

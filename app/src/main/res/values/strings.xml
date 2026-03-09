@@ -30,4 +30,7 @@
     <string name="search_car_here">Search car here</string>
     <string name="brand">Brand </string>
     <string name="all_cars">All Cars</string>
+    <string name="car">Car</string>
+    <string name="favourite">Favourite</string>
+    <string name="account">Account</string>
 </resources>
