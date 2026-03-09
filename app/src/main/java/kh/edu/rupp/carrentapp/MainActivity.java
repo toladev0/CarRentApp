@@ -1,48 +1,54 @@
 package kh.edu.rupp.carrentapp;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+import kh.edu.rupp.carrentapp.fragment.AccountFragment;
+import kh.edu.rupp.carrentapp.fragment.CarFragment;
+import kh.edu.rupp.carrentapp.fragment.FavFragment;
+import kh.edu.rupp.carrentapp.fragment.HomeFragment;
 
-    BottomNavigationView bottomNavigationView;
-    Fragment selectedFragment;
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        // Set default fragment
+        if (savedInstanceState == null) {
+            loadFragment(new HomeFragment());
+        }
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            selectedFragment = null;
-
-            if (item.getItemId() == R.id.nav_home) {
-                selectedFragment = new HomeFragment();
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_home) {
+                loadFragment(new HomeFragment());
+                return true;
+            } else if (itemId == R.id.nav_car) {
+                loadFragment(new CarFragment());
+                return true;
+            } else if (itemId == R.id.nav_fav) {
+                loadFragment(new FavFragment());
+                return true;
+            } else if (itemId == R.id.nav_profile) {
+                loadFragment(new AccountFragment());
+                return true;
             }
-            else if (item.getItemId() == R.id.nav_profile) {
-                selectedFragment = new ProfileFragment();
-            }
-
-            return loadFragment(selectedFragment);
+            return false;
         });
-
-        if (selectedFragment == null)
-            loadFragment(new HomeFragment());
     }
 
-    private boolean loadFragment(Fragment selectedFragment) {
-        if (selectedFragment != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.frameLayout, selectedFragment)
-                    .commit();
-            return true;
-        }
-        return false;
+    private void loadFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
     }
 }
