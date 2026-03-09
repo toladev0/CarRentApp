@@ -2,5 +2,17 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimary">#F54927</color>
+
+    <!-- Primary -->
+    <color name="Primary500">#F97316</color>
+    <color name="Primary600">#EA580C</color>
+
+    <!-- Neutral -->
+    <color name="NeutralBackground">#F9FAFB</color>
+    <color name="NeutralCard">#FFFFFF</color>
+    <color name="NeutralBorder">#E5E7EB</color>
+
+    <!-- Text -->
+    <color name="TetPrimary">#111827</color>
+    <color name="TetSecondary">#757575</color>
 </resources>
