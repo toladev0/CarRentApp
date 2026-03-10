@@ -25,98 +25,142 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:fontFamily="@font/inter_bold"
                 android:text="@string/create_account"
                 android:textAlignment="center"
-                android:textColor="@color/Primary600"
-                android:textSize="34sp"
-                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="36sp"
                 tools:ignore="TextContrastCheck" />
 
             <TextView
-                android:layout_width="300dp"
-                android:layout_height="100dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="18dp"
                 android:fontFamily="@font/inter_medium"
                 android:text="@string/creating_an_account_so_you_can_explore_all_existing_car"
                 android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="22sp"
+                android:textSize="26sp"
                 tools:ignore="TextSizeCheck" />
+
+            <TextView
+                android:layout_width="368dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="@string/name"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
 
             <EditText
                 android:id="@+id/editTextFullName"
-                android:layout_width="340dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
+                android:layout_width="368dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
                 android:autofillHints="name"
                 android:background="@drawable/edittext_bg"
                 android:fontFamily="@font/inter"
-                android:hint="@string/full_name"
-                android:inputType="text"
-                android:padding="12dp"
-                tools:ignore="TextContrastCheck" />
-
-            <EditText
-                android:id="@+id/editTextPhoneNumber"
-                android:layout_width="340dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:autofillHints="phone"
-                android:background="@drawable/edittext_bg"
-                android:fontFamily="@font/inter"
-                android:hint="@string/phone"
-                android:inputType="phone"
-                android:padding="12dp"
-                tools:ignore="TextContrastCheck" />
-
-            <EditText
-                android:id="@+id/editTextEmailAddress"
-                android:layout_width="340dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:autofillHints="emailAddress"
-                android:background="@drawable/edittext_bg"
-                android:fontFamily="@font/inter"
-                android:hint="@string/email"
+                android:textSize="20sp"
+                android:hint="@string/john"
                 android:inputType="textEmailAddress"
                 android:padding="12dp"
                 tools:ignore="TextContrastCheck" />
 
-            <EditText
-                android:id="@+id/editTextPassword"
-                android:layout_width="340dp"
+            <TextView
+                android:layout_width="368dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:autofillHints=""
+                android:fontFamily="@font/inter_bold"
+                android:text="@string/phone"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
+
+            <EditText
+                android:id="@+id/editTextPhoneNumber"
+                android:layout_width="368dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
+                android:autofillHints="phone"
                 android:background="@drawable/edittext_bg"
                 android:fontFamily="@font/inter"
-                android:hint="@string/password"
+                android:textSize="20sp"
+                android:hint="@string/_012345678"
+                android:inputType="phone"
+                android:padding="12dp"
+                tools:ignore="TextContrastCheck" />
+
+            <TextView
+                android:layout_width="368dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="@string/email"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
+
+            <EditText
+                android:id="@+id/editTextEmailAddress"
+                android:layout_width="368dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
+                android:autofillHints="phone"
+                android:background="@drawable/edittext_bg"
+                android:fontFamily="@font/inter"
+                android:textSize="20sp"
+                android:hint="@string/name_email_com"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
+                tools:ignore="TextContrastCheck" />
+
+            <TextView
+                android:layout_width="368dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="@string/password"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="20sp"/>
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="368dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="18dp"
+                android:autofillHints="password"
+                android:background="@drawable/edittext_bg"
+                android:fontFamily="@font/inter"
+                android:textSize="20sp"
+                android:hint="@string/create_a_password"
                 android:inputType="textPassword"
-                android:padding="12sp"
+                android:padding="12dp"
                 tools:ignore="TextContrastCheck" />
 
             <EditText
                 android:id="@+id/editTextConfirmPassword"
-                android:layout_width="340dp"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
+                android:layout_width="368dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="31dp"
+                android:autofillHints="password"
                 android:background="@drawable/edittext_bg"
                 android:fontFamily="@font/inter"
+                android:textSize="20sp"
                 android:hint="@string/confirm_password"
                 android:inputType="textPassword"
-                android:padding="12sp"
+                android:padding="12dp"
                 tools:ignore="TextContrastCheck" />
 
             <Button
                 android:id="@+id/signUpButton"
-                android:layout_width="340dp"
+                android:layout_width="368dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="11dp"
                 android:backgroundTint="@color/Primary600"
+                android:fontFamily="@font/inter"
                 android:text="@string/sign_up"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="24sp"
                 app:cornerRadius="10dp"
                 tools:ignore="TextContrastCheck,VisualLintButtonSize" />
 
@@ -124,53 +168,11 @@
                 android:id="@+id/alreadyHaveAccountLink"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="20dp"
                 android:text="@string/already_have_account"
                 android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/or_continue_with"
-                android:textAlignment="center"
                 android:textColor="@color/Primary600"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 tools:ignore="TextContrastCheck" />
-
-            <LinearLayout
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:gravity="center" >
-
-                <ImageView
-                    android:id="@+id/googleRegisterIcon"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/google_logo"
-                    tools:ignore="ContentDescription" />
-
-                <ImageView
-                    android:id="@+id/facebookRegisterIcon"
-                    android:layout_width="0dp"
-                    android:layout_height="64dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/facebook_logo"
-                    tools:ignore="ContentDescription" />
-
-                <ImageView
-                    android:id="@+id/appleIdRegisterIcon"
-                    android:layout_width="0dp"
-                    android:layout_height="64dp"
-                    android:layout_weight="1"
-                    android:src="@drawable/apple_logo"
-                    tools:ignore="ContentDescription" />
-
-            </LinearLayout>
 
         </LinearLayout>
 

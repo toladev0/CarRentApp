@@ -1,11 +1,9 @@
 package kh.edu.rupp.carrentapp;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,9 +31,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText editTextConfirmPassword;
     Button signUpButton;
     TextView alreadyHaveAccountLink;
-    ImageView googleRegisterIcon;
-    ImageView facebookRegisterIcon;
-    ImageView appleIdRegisterIcon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,9 +44,6 @@ public class RegisterActivity extends AppCompatActivity {
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
         signUpButton = findViewById(R.id.signUpButton);
         alreadyHaveAccountLink = findViewById(R.id.alreadyHaveAccountLink);
-        googleRegisterIcon = findViewById(R.id.googleRegisterIcon);
-        facebookRegisterIcon = findViewById(R.id.facebookRegisterIcon);
-        appleIdRegisterIcon = findViewById(R.id.appleIdRegisterIcon);
 
         editTextFullName.requestFocus();
 
@@ -104,9 +96,6 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         alreadyHaveAccountLink.setOnClickListener(view -> openLoginActivity());
-        googleRegisterIcon.setOnClickListener(view -> openLink("https://www.google.com"));
-        facebookRegisterIcon.setOnClickListener(view -> openLink("https://www.facebook.com"));
-        appleIdRegisterIcon.setOnClickListener(view -> openLink("https://www.apple.com"));
     }
 
     private void registerUser(String fullName, String phoneNumber, String email, String password) {
@@ -179,11 +168,5 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
-    }
-
-    private void openLink(String url){
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
-        startActivity(intent);
     }
 }
