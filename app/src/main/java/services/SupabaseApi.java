@@ -1,6 +1,9 @@
 package services;
 
+import java.util.List;
+
 import models.AuthResponse;
+import models.CarRequest;
 import models.LoginRequest;
 import models.RefreshRequest;
 import models.RegisterRequest;
@@ -8,6 +11,7 @@ import models.ResetPasswordRequest;
 import models.UserInsertRequest;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -52,4 +56,11 @@ public interface SupabaseApi {
             @Header("Authorization") String token,
             @Body UserInsertRequest user
     );
+
+    @Headers({
+            "Content-Type: application/json",
+            "apikey: " + ApiKey.API_KEY
+    })
+    @GET("rest/v1/cars")
+    Call<List<CarRequest>> getCars();
 }

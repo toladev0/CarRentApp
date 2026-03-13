@@ -14,10 +14,13 @@ public class SetupActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (checkLoginStatus())
-            return;
-
         super.onCreate(savedInstanceState);
+
+        if (checkLoginStatus()) {
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_setup);
 
         loginButton = findViewById(R.id.loginButton);

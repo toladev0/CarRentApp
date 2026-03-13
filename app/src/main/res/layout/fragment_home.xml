@@ -212,6 +212,17 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </androidx.recyclerview.widget.RecyclerView>
+            </HorizontalScrollView>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
